@@ -1,6 +1,5 @@
 const path = require('path');
-
-
+require("dotenv/config")
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
@@ -13,7 +12,6 @@ const multer = require('multer')
 const errorController = require('./controllers/error');
 const User = require('./models/user');
 
-const PORT = 3000;
 const MONGODB_URI = 'mongodb+srv://Lucascm:mongodbpass@cluster0.jwaddvn.mongodb.net/shop'
 
 const app = express();
@@ -92,9 +90,9 @@ app.use(authRoutes);
 app.use(errorController.get404);
 
 mongoose
-  .connect(MONGODB_URI, { useNewUrlParser: true })
+  .connect(`${process.env.MONGO_URL}`, { useNewUrlParser: true })
   .then(result => {
-    app.listen(PORT, () => console.log(`Server is running at ${PORT}`));
+    app.listen(process.env.PORT, () => console.log(`Server is running at ${process.env.PORT}`));
   })
   .catch(err => {
     console.log(err);
